@@ -62,12 +62,13 @@ public class MenuState extends GameState {
 			}else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 145, 140+i+15);
+			g.drawString(options[i], 145, 140+i*15);
 		}
 	}
 	
 	private void select() {
 		if(currentChoice == 0) {
+			gsm.setState(GameStateManager.LEVEL1STATE);
 			//start
 		}
 		if(currentChoice == 1) {
