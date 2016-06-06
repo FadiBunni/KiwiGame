@@ -1,4 +1,5 @@
 package Main;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
@@ -25,14 +26,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// image
 	private BufferedImage image;
 	private Graphics2D g;
-	
+
 	// game state manager
 	private GameStateManager gsm;
-	
 
 	public GamePanel() {
 		super();
-		setPreferredSize(new Dimension(WIDTH + SCALE, HEIGHT + SCALE));
+		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		setFocusable(true);
 		requestFocus();
 	}
@@ -49,10 +49,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private void init() {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
-		
+
 		running = true;
 		
 		gsm = new GameStateManager();
+
 	}
 
 	public void run() {
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		long start;
 		long elapsed;
-		long wait = 0;
+		long wait;
 
 		// game loop
 		while (running) {
@@ -70,17 +71,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			draw();
 			drawToScreen();
 
-			elapsed = System.nanoTime();
+			elapsed = System.nanoTime() - start;
 
 			wait = targetTime - elapsed / 1000000;
-		}
 
-		try {
-			Thread.sleep(wait);
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				Thread.sleep(wait);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	private void update() {
@@ -107,6 +107,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public void keyReleased(KeyEvent key) {
 		gsm.keyReleased(key.getKeyCode());
 	}
-
 
 }
